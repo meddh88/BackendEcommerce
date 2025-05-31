@@ -20,30 +20,30 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
+        required: false, // Category is optional
     },
     price: {
         type: Number,
-        required: true,
+        required: true, // Category is optional
         default: 0.0,
     },
     countInStock: {
         type: Number,
-        required: true,
+        required: false, // Category is optional
         default: 0,
     },
     rating: {
         type: Number,
-        required: true,
+        required: false, // Category is optional
         default: 0.0,
     },
     numReviews: {
         type: Number,
-        required: true,
+        required: false, // Category is optional
         default: 0,
     },
 }, {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
+    timestamps: true, // Category is optional // Automatically manage createdAt and updatedAt fields
 });
 
 const Product = mongoose.model('Product', productSchema);
