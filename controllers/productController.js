@@ -48,7 +48,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 });
 
-const getProuctByAdmin = asyncHandler(async (req, res) => {
+const getProductByAdmin = asyncHandler(async (req, res) => {
     const products = await Product.find({ user: req.user._id });
     if (!products || products.length === 0) {
         return res.status(404).json({ message: 'No products found for this user' });
@@ -56,12 +56,32 @@ const getProuctByAdmin = asyncHandler(async (req, res) => {
     res.json(products);
 });
 
+const updateProduct = asyncHandler(async (req, res) => {
+    const { name, price, description, image, category, countInStock } = req.body;
+    const product = await Product.findById(req.params.productId);
+
+    if (product) {
+        product.name = name || product.name;
+        product.price = price || product.price;
+        product.description = description || product.description;
+        product.image = image || product.image;
+        product.category = category || product.category;
+        product.countInStock = countInStock || product.countInStock;
+
+        const updatedProduct = await product.save();
+        res.json(updatedProduct);
+    } else {
+        res.status(404).json({ message: 'Product not found' });
+    }
+});
 
 module.exports = {
     getProducts,
     getProductById,
     createProduct,
     deleteProduct, // Exporting deleteProduct for use in routes
-    getProuctByAdmin
+    getProductByAdmin,
+    updateProduct // Exporting updateProduct for use in routes
+    
     // You can add more exports for updateProduct and deleteProduct if needed
 };
